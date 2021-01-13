@@ -56,7 +56,7 @@ describe("first test describtion", () => {
     cy.contains("nb-card", "Block form").find('input[placeholder="Website"]');
   });
 
-  it.only("Converting Cypress to jQuery & jQuery back to Cypress (wrap()) -> ", () => {
+  it("Converting Cypress to jQuery & jQuery back to Cypress (wrap()) -> ", () => {
     cy.visit("/");
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
@@ -89,5 +89,38 @@ describe("first test describtion", () => {
         cy.wrap(firstBloackPassword).should("contain", "Password");
       });
     });
+  });
+
+  it.only("invoke() example -> ", () => {
+    cy.visit("/");
+    cy.contains("Forms").click();
+    cy.contains("Form Layouts").click();
+
+    //	get text of firstBlock using invoke method
+    cy.contains("nb-card", "Using the Grid")
+      .find('[for="inputEmail1"]')
+      .invoke("text")
+      .should("equal", "Email");
+
+    //	get value using attribute & invoke method
+    cy.contains("nb-card", "Using the Grid")
+      .find("#inputEmail1")
+      .invoke("attr", '[placeholder="Email"]')
+      .should("equal", undefined);
+
+    //	Advanced invoke using calendar
+    cy.contains("Datepicker").click();
+
+    cy.contains("nb-card", "Common Datepicker")
+      .find("input")
+      .then((input) => {
+        cy.wrap(input).click();
+
+        cy.get("nb-calendar-day-picker")
+          .contains("nb-calendar-day-cell", "14")
+          .click();
+
+        cy.wrap(input).invoke("prop", "value").should("equal", "Jan 14, 2021");
+      });
   });
 });

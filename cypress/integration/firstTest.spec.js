@@ -91,7 +91,7 @@ describe("first test describtion", () => {
     });
   });
 
-  it.only("invoke() example -> ", () => {
+  it("invoke() example -> ", () => {
     cy.visit("/");
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
@@ -122,5 +122,37 @@ describe("first test describtion", () => {
 
         cy.wrap(input).invoke("prop", "value").should("equal", "Jan 14, 2021");
       });
+  });
+
+  it("radiobuttons examples", () => {
+    cy.visit("/");
+    cy.contains("Forms").click();
+    cy.contains("Form Layouts").click();
+
+    cy.contains("nb-card", "Using the Grid")
+      .find('[type="radio"]')
+      .then((radioButtons) => {
+        cy.wrap(radioButtons)
+          .first()
+          .check({ force: true })
+          .should("be.checked");
+
+        //	tap second radio button
+        cy.wrap(radioButtons).eq(1).check({ force: true }).should("be.checked");
+        cy.wrap(radioButtons).eq(0).should("not.be.checked");
+
+        //	third radio button should be disabled
+        cy.wrap(radioButtons).eq(2).should("be.disabled");
+      });
+  });
+
+  it.only("checkboxes example", () => {
+    cy.visit("/");
+    cy.contains("Modal & Overlays").click();
+    cy.contains("Toastr").click();
+
+    cy.get('[type="checkbox"]').first().uncheck({ force: true });
+    cy.get('[type="checkbox"]').eq(1).check({ force: true });
+    cy.get('[type="checkbox"]').eq(2).check({ force: true });
   });
 });

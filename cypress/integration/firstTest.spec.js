@@ -1,7 +1,5 @@
 /// <reference types="Cypress" />
 
-const { table } = require("console");
-
 describe("first test describtion", () => {
   it("various ways of get()", () => {
     //	ask cypress to execute on baseUrl
@@ -158,7 +156,7 @@ describe("first test describtion", () => {
     cy.get('[type="checkbox"]').eq(2).check({ force: true });
   });
 
-  it.only("Datatables Examples", () => {
+  it("Datatables Examples", () => {
     cy.visit("/");
     cy.contains("Tables & Data").click();
     cy.contains("Smart Table").click();
@@ -180,4 +178,31 @@ describe("first test describtion", () => {
         //	Assertion Pending
       });
   });
+
+  it("Tooltip Examples", () => {
+    cy.visit("/");
+    cy.contains("Modal & Overlays").click();
+    cy.contains("Tooltip").click();
+
+    cy.contains("nb-card", "Tooltip With Icon")
+      .find('button[nbtooltip="This is a tooltip"]')
+      .click();
+
+    cy.get("nb-tooltip")
+      .find("span.ng-tns-c21-23.ng-star-inserted")
+      .invoke("prop", "innerText")
+      .should("equal", "This is a tooltip");
+  });
 });
+
+it.only("Dialog Box Example", () => {
+  cy.visit("/");
+  cy.contains("Modal & Overlays").click();
+  cy.contains("Dialog").click();
+
+  cy.contains("nb-card", "Open Dialog").find("button").first().click();
+
+  cy.get("nb-dialog-container").find("button").click();
+});
+
+//	System / Window Alert

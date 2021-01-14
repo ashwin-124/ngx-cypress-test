@@ -1,5 +1,7 @@
 /// <reference types="Cypress" />
 
+const { table } = require("console");
+
 describe("first test describtion", () => {
   it("various ways of get()", () => {
     //	ask cypress to execute on baseUrl
@@ -146,7 +148,7 @@ describe("first test describtion", () => {
       });
   });
 
-  it.only("checkboxes example", () => {
+  it("checkboxes example", () => {
     cy.visit("/");
     cy.contains("Modal & Overlays").click();
     cy.contains("Toastr").click();
@@ -154,5 +156,28 @@ describe("first test describtion", () => {
     cy.get('[type="checkbox"]').first().uncheck({ force: true });
     cy.get('[type="checkbox"]').eq(1).check({ force: true });
     cy.get('[type="checkbox"]').eq(2).check({ force: true });
+  });
+
+  it.only("Datatables Examples", () => {
+    cy.visit("/");
+    cy.contains("Tables & Data").click();
+    cy.contains("Smart Table").click();
+
+    //	Adding a New Record / Row
+    cy.get("thead").find(".nb-plus").click();
+
+    cy.get("thead")
+      .find("tr")
+      .find("td")
+      .then((tableData) => {
+        const firstNameData = cy.wrap(tableData).eq(2).find("input");
+        firstNameData.clear().type("John");
+        const lastNameData = cy.wrap(tableData).eq(3).find("input");
+        lastNameData.clear().type("Doe");
+
+        cy.wrap(tableData).eq(0).find(".nb-checkmark").click();
+
+        //	Assertion Pending
+      });
   });
 });

@@ -205,4 +205,6 @@ it.only("Dialog Box Example", () => {
   cy.get("nb-dialog-container").find("button").click();
 });
 
-//	System / Window Alert
+//	System / Window Alert Example
+
+//	Select Example

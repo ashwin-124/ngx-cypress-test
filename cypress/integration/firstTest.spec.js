@@ -1,5 +1,7 @@
 /// <reference types="Cypress" />
 
+const { table } = require("console");
+
 describe("first test describtion", () => {
   it("various ways of get()", () => {
     //	ask cypress to execute on baseUrl
@@ -156,12 +158,13 @@ describe("first test describtion", () => {
     cy.get('[type="checkbox"]').eq(2).check({ force: true });
   });
 
-  it("Datatables Examples", () => {
+  it.only("Datatables Examples", () => {
     cy.visit("/");
     cy.contains("Tables & Data").click();
     cy.contains("Smart Table").click();
 
-    //	Adding a New Record / Row
+
+    //	1. Adding a New Record / Row
     cy.get("thead").find(".nb-plus").click();
 
     cy.get("thead")
@@ -174,9 +177,25 @@ describe("first test describtion", () => {
         lastNameData.clear().type("Doe");
 
         cy.wrap(tableData).eq(0).find(".nb-checkmark").click();
-
-        //	Assertion Pending
       });
+
+      //  2. Verifying Inputs
+      cy.get("tbody")
+      .find("tr").first().find('td').each((tableData, index) => {
+        if(index === 2) {
+          cy.wrap(tableData).find('div .ng-star-inserted').invoke('prop', 'innerText').should('equal', 'John')
+        }
+        if(index === 3) {
+          cy.wrap(tableData).find('div .ng-star-inserted').invoke('prop', 'innerText').should('equal', 'Doe')
+        }
+      })
+
+      //  3. Verifying Search Result
+      cy.get('thead').find('tr').last().find('th').last().find('input').clear().type('40').wait(1000)
+      cy.get('tbody').find('tr').each(tableRow => {
+        cy.wrap(tableRow).find('td').last().find('div .ng-star-inserted').invoke('prop', 'innerText').should('equal', '40')
+      })
+      
   });
 
   it("Tooltip Examples", () => {
@@ -195,7 +214,7 @@ describe("first test describtion", () => {
   });
 });
 
-it.only("Dialog Box Example", () => {
+it("Dialog Box Example", () => {
   cy.visit("/");
   cy.contains("Modal & Overlays").click();
   cy.contains("Dialog").click();
@@ -206,3 +225,17 @@ it.only("Dialog Box Example", () => {
 });
 
 //	System / Window Alert
+it('System / Window Alert Example', () => {
+  cy.visit('/')
+  cy.contains('Tables & Data').click()
+  cy.contains('Smart Table').click()
+
+  const stub = cy.stub()
+  cy.on('window:confirm', stub)
+  cy.get('tbody').find('tr').eq(0).find('td').eq(0).find('.nb-trash').click().then(() => {
+    console.log(stub)
+    expect(stub.getCall(0)).to.be.calledWith('Are you sure you want to delete?')
+  })
+})
+
+//  Dropdown Pending

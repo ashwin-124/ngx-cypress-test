@@ -1,4 +1,4 @@
-const selectGroupMenu = (type, title) => {
+const selectGroupMenu = (type = 'a', title) => {
   cy.contains(type, title).then(menu => {
     cy.wrap(menu).find('nb-icon.expand-state').find('g').last().invoke('attr', 'data-name').then(iconType => {
       if(iconType.includes('left')) {
@@ -11,15 +11,30 @@ const selectGroupMenu = (type, title) => {
 class NavigationPage {
 
   formLayoutPage() {
-    selectGroupMenu('a', 'Forms');
-    
-    // cy.contains("Form Layouts").click();
+    selectGroupMenu('Forms');
+    cy.contains("Form Layouts").click();
   }
 
   datePickerPage() {
-    // cy.contains("Forms").click();
-    // cy.contains("Datepicker").click();
+    selectGroupMenu('Forms');
+    cy.contains("Datepicker").click();
   }
+
+  toasterPage() {
+    selectGroupMenu('Modal & Overlays')
+    cy.contains("Toastr").click();
+  }
+
+  smartTablePage() {
+    selectGroupMenu("Tables & Data")
+    cy.contains("Smart Table").click();
+  }
+
+  toolTipPage() {
+    selectGroupMenu("Modal & Overlays")
+    cy.contains("Dialog").click();
+    cy.contains("Tooltip").click();
+  } 
 }
 
 export const navgiationPage = new NavigationPage()

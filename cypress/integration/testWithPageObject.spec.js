@@ -8,5 +8,9 @@ describe('Page Object Tests', () => {
   it('Check Navigation Drawer / Sidemenu', () => {
     navgiationPage.formLayoutPage()
     navgiationPage.datePickerPage()
+    navgiationPage.smartTablePage()
+    navgiationPage.toasterPage()
+    navgiationPage.toolTipPage()
   })
+
 })

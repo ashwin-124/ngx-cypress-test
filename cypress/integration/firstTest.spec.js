@@ -195,7 +195,6 @@ describe("first test describtion", () => {
       cy.get('tbody').find('tr').each(tableRow => {
         cy.wrap(tableRow).find('td').last().find('div .ng-star-inserted').invoke('prop', 'innerText').should('equal', '40')
       })
-      
   });
 
   it("Tooltip Examples", () => {
@@ -224,7 +223,6 @@ it("Dialog Box Example", () => {
   cy.get("nb-dialog-container").find("button").click();
 });
 
-<<<<<<< HEAD
 //	System / Window Alert
 it('System / Window Alert Example', () => {
   cy.visit('/')
@@ -240,8 +238,3 @@ it('System / Window Alert Example', () => {
 })
 
 //  Dropdown Pending
-=======
-//	System / Window Alert Example
-
-//	Select Example
->>>>>>> 3955488bc9d77df706d7345c810994b6b9ad9821
